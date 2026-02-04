@@ -1,0 +1,9 @@
+<h2>Applicants</h2>
+
+{% for a in applications %}
+  <p>
+    {{ a.candidate.username }}
+    -
+    <a href="{{ a.resume.url }}">Resume</a>
+  </p>
+{% endfor %}

@@ -1,0 +1,14 @@
+<h2>All Jobs</h2>
+
+<a href="/create/">Post Job</a>
+<hr>
+
+{% for job in jobs %}
+    <h3>{{ job.title }}</h3>
+    <p>{{ job.company }} | {{ job.location }}</p>
+    <p>{{ job.description }}</p>
+    <hr>
+{% empty %}
+    <p>No jobs yet</p>
+{% endfor %}
+<a href="/apply/{{ job.id }}/">Apply</a>
