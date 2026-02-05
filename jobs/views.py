@@ -1,23 +1,21 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Job
-from .forms import JobForm
-from .models import Application
-from .forms import ApplicationForm
-from django.shortcuts import get_object_or_404
+from .models import Job, Application
+from .forms import JobForm, ApplicationForm
 
 
-
+# Public jobs list
 def job_list(request):
     jobs = Job.objects.filter(is_active=True)
     return render(request, "jobs/job_list.html", {"jobs": jobs})
 
 
+# Recruiter creates job
 @login_required
 def create_job(request):
-    # only recruiter allowed
+
     if request.user.role != "recruiter":
-        return redirect("job_list")
+        return redirect("candidate_home")   
 
     form = JobForm(request.POST or None)
 
@@ -25,15 +23,18 @@ def create_job(request):
         job = form.save(commit=False)
         job.recruiter = request.user
         job.save()
-        return redirect("job_list")
+        return redirect("recruiter_home")  
 
     return render(request, "jobs/create_job.html", {"form": form})
 
+
+
+# Candidate applies
 @login_required
 def apply_job(request, job_id):
 
     if request.user.role != "candidate":
-        return redirect("job_list")
+        return redirect("recruiter_home")   
 
     job = get_object_or_404(Job, id=job_id)
 
@@ -44,17 +45,44 @@ def apply_job(request, job_id):
         app.job = job
         app.candidate = request.user
         app.save()
-        return redirect("job_list")
+        return redirect("candidate_home")  
 
-    return render(request, "jobs/apply_job.html", {"form": form, "job": job})
+    return render(request, "jobs/apply_jobs.html", {"form": form, "job": job})
 
+
+
+# Recruiter views applicants
 @login_required
 def my_applicants(request):
+
+    if request.user.role != "recruiter":
+        return redirect("candidate_home")   
+
     jobs = Job.objects.filter(recruiter=request.user)
     applications = Application.objects.filter(job__in=jobs)
 
-    return render(request, "jobs/applicants.html", {"applications": applications})
+    return render(request, "jobs/applicant.html", {"applications": applications})
 
 
 
+# Recruiter dashboard
+@login_required
+def recruiter_home(request):
 
+    if request.user.role != "recruiter":
+        return redirect("candidate_home")
+
+    jobs = Job.objects.filter(recruiter=request.user)
+    return render(request, "jobs/recruiter_home.html", {"jobs": jobs})
+
+
+
+# Candidate dashboard
+@login_required
+def candidate_home(request):
+
+    if request.user.role != "candidate":
+        return redirect("recruiter_home")
+
+    jobs = Job.objects.filter(is_active=True)
+    return render(request, "jobs/candidate_home.html", {"jobs": jobs})

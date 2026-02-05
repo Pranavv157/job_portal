@@ -1,0 +1,22 @@
+<h2>Candidate Dashboard</h2>
+<hr>
+
+{% for job in jobs %}
+  <div style="margin-bottom:25px; border-bottom:1px solid #ccc; padding:10px;">
+
+    <h3>{{ job.title }}</h3>
+
+    <p>
+      <strong>Company:</strong> {{ job.company }} <br>
+      <strong>Location:</strong> {{ job.location }}
+    </p>
+
+    <p>{{ job.description }}</p>
+
+    <a href="/apply/{{ job.id }}/">Apply</a>
+
+  </div>
+
+{% empty %}
+  <p>No jobs available</p>
+{% endfor %}

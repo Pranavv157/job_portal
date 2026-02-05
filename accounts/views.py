@@ -17,4 +17,9 @@ def register_view(request):
 
 @login_required
 def dashboard(request):
-    return render(request, "dashboard.html")
+
+    if request.user.role == "recruiter":
+        return redirect("recruiter_home")
+
+    elif request.user.role == "candidate":
+        return redirect("candidate_home")
