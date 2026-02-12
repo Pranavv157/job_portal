@@ -77,6 +77,7 @@ def recruiter_home(request):
         return redirect("candidate_home")
 
     query = request.GET.get("search","")
+    locations= request.GET.get("location", "")
 
     jobs = Job.objects.filter(recruiter=request.user)
 
@@ -86,13 +87,20 @@ def recruiter_home(request):
         ) | jobs.filter(
             company__icontains=query
         )
+    if locations:
+        jobs = jobs.filter(location__icontains=location)
+    
+    locations = Job.objects.values_list('location', flat=True).distinct()
+
+
     paginator = Paginator(jobs, 5)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
     return render(request, "jobs/recruiter_home.html", {
         "page_obj": page_obj,
-        "search_query": query
+        "search_query": query,
+        "selected_locations": locations
     })
 
 
@@ -104,8 +112,10 @@ def candidate_home(request):
         return redirect("recruiter_home")
 
     query = request.GET.get("search","")
+    locations= request.GET.get("location", "")
 
     jobs = Job.objects.filter(is_active=True)
+    
 
     if query:
         jobs = jobs.filter(
@@ -113,13 +123,20 @@ def candidate_home(request):
         ) | jobs.filter(
             company__icontains=query
         )
+    if locations:
+        jobs = jobs.filter(location__icontains=locations)
+    
+    locations = Job.objects.values_list('location', flat=True).distinct()
+
+
     paginator = Paginator(jobs, 5)  # 5 jobs per page
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
     return render(request, "jobs/candidate_home.html", {
         "page_obj": page_obj,
-        "search_query": query
+        "search_query": query,
+        "locations":locations
     })
 
 @login_required
