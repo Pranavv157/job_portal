@@ -1,7 +1,17 @@
 <h2>Candidate Dashboard</h2>
 <hr>
 
-{% for job in jobs %}
+<form method="get">
+  <input type="text" name="search" placeholder="Search jobs..."
+         value="{{ search_query }}">
+  <button type="submit">Search</button>
+</form>
+
+<hr>
+
+{% for job in page_obj %}
+
+  
   <div style="margin-bottom:25px; border-bottom:1px solid #ccc; padding:10px;">
 
     <h3>{{ job.title }}</h3>
@@ -16,7 +26,21 @@
     <a href="/apply/{{ job.id }}/">Apply</a>
 
   </div>
+  
 
 {% empty %}
   <p>No jobs available</p>
 {% endfor %}
+<div>
+  {% if page_obj.has_previous %}
+      <a href="?page=1&search={{ search_query }}">First</a>
+      <a href="?page={{ page_obj.previous_page_number }}&search={{ search_query }}">Previous</a>
+  {% endif %}
+
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+  {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}&search={{ search_query }}">Next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search_query }}">Last</a>
+  {% endif %}
+</div>

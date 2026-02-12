@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Job, Application
 from .forms import JobForm, ApplicationForm
+from django.core.paginator import Paginator
 
 
 # Public jobs list
@@ -72,9 +73,24 @@ def recruiter_home(request):
     if request.user.role != "recruiter":
         return redirect("candidate_home")
 
-    jobs = Job.objects.filter(recruiter=request.user)
-    return render(request, "jobs/recruiter_home.html", {"jobs": jobs})
+    query = request.GET.get("search","")
 
+    jobs = Job.objects.filter(recruiter=request.user)
+
+    if query:
+        jobs = jobs.filter(
+            title__icontains=query
+        ) | jobs.filter(
+            company__icontains=query
+        )
+    paginator = Paginator(jobs, 5)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "jobs/recruiter_home.html", {
+        "page_obj": page_obj,
+        "search_query": query
+    })
 
 
 # Candidate dashboard
@@ -84,5 +100,21 @@ def candidate_home(request):
     if request.user.role != "candidate":
         return redirect("recruiter_home")
 
+    query = request.GET.get("search","")
+
     jobs = Job.objects.filter(is_active=True)
-    return render(request, "jobs/candidate_home.html", {"jobs": jobs})
+
+    if query:
+        jobs = jobs.filter(
+            title__icontains=query
+        ) | jobs.filter(
+            company__icontains=query
+        )
+    paginator = Paginator(jobs, 5)  # 5 jobs per page
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "jobs/candidate_home.html", {
+        "page_obj": page_obj,
+        "search_query": query
+    })
