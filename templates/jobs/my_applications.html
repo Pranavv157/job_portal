@@ -1,0 +1,29 @@
+<a href="/my-applications/">My Applications</a>
+<hr>
+
+
+<hr>
+
+{% for app in applications %}
+  <div style="margin-bottom:20px; border-bottom:1px solid #ccc; padding:10px;">
+
+    <h3>{{ app.job.title }}</h3>
+
+    <p>
+      <strong>Company:</strong> {{ app.job.company }} <br>
+      <strong>Location:</strong> {{ app.job.location }}
+    </p>
+
+    <p>
+      <strong>Applied on:</strong> {{ app.applied_at }}
+    </p>
+
+    <p>
+      <a href="{{ app.resume.url }}">View Resume</a>
+    </p>
+
+  </div>
+
+{% empty %}
+  <p>You have not applied to any jobs yet.</p>
+{% endfor %}

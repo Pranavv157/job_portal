@@ -41,12 +41,15 @@ def apply_job(request, job_id):
 
     form = ApplicationForm(request.POST or None, request.FILES or None)
 
+    if Application.objects.filter(job=job, candidate=request.user).exists():
+        return redirect("candidate_home")
+
     if form.is_valid():
         app = form.save(commit=False)
         app.job = job
         app.candidate = request.user
         app.save()
-        return redirect("candidate_home")  
+        return redirect("candidate_home")
 
     return render(request, "jobs/apply_jobs.html", {"form": form, "job": job})
 
@@ -117,4 +120,16 @@ def candidate_home(request):
     return render(request, "jobs/candidate_home.html", {
         "page_obj": page_obj,
         "search_query": query
+    })
+
+@login_required
+def my_applications(request):
+
+    if request.user.role != "candidate":
+        return redirect("recruiter_home")
+
+    applications = Application.objects.filter(candidate=request.user)
+
+    return render(request, "jobs/my_applications.html", {
+        "applications": applications
     })
