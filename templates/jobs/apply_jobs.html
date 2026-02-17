@@ -1,7 +1,126 @@
-<h2>Apply for {{ job.title }}</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apply for {{ job.title }}</title>
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Apply</button>
-</form>
+    <style>
+        /* -------- Reset -------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #f4f6f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        /* -------- Card -------- */
+        .apply-container {
+            width: 100%;
+            max-width: 520px;
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        /* -------- Heading -------- */
+        .apply-container h2 {
+            margin-bottom: 20px;
+            color: #1f2937;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .job-title {
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        /* -------- Form -------- */
+        form p {
+            margin-bottom: 16px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        form input,
+        form textarea,
+        form select {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+        }
+
+        form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        form input:focus,
+        form textarea:focus,
+        form select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        /* -------- Errors -------- */
+        .errorlist {
+            list-style: none;
+            margin-top: 6px;
+            color: #dc2626;
+            font-size: 13px;
+        }
+
+        /* -------- Button -------- */
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="apply-container">
+        <h2>Apply for</h2>
+        <div class="job-title">{{ job.title }}</div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Apply</button>
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,9 +1,132 @@
-<h2>Register</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Register</button>
-</form>
+    <style>
+        /* -------- Reset -------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        }
 
-<a href="/accounts/login/">Login</a>
+        body {
+            min-height: 100vh;
+            background-color: #f4f6f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* -------- Card -------- */
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        /* -------- Heading -------- */
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #1f2937;
+            font-weight: 600;
+        }
+
+        /* -------- Form -------- */
+        form p {
+            margin-bottom: 16px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        form input {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            transition: border-color 0.2s ease;
+        }
+
+        form input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        /* -------- Errors -------- */
+        .errorlist {
+            list-style: none;
+            margin-top: 6px;
+            color: #dc2626;
+            font-size: 13px;
+        }
+
+        /* -------- Button -------- */
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #1e40af;
+        }
+
+        /* -------- Footer Link -------- */
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .auth-footer a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <h2>Register</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Register</button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account?
+            <a href="/accounts/login/">Login</a>
+        </div>
+    </div>
+
+</body>
+</html>

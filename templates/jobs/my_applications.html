@@ -1,29 +1,135 @@
-<a href="/my-applications/">My Applications</a>
-<hr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Applications</title>
 
+    <style>
+        /* -------- Reset -------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        }
 
-<hr>
+        body {
+            background-color: #f4f6f8;
+            padding: 40px 16px;
+            color: #1f2937;
+        }
 
-{% for app in applications %}
-  <div style="margin-bottom:20px; border-bottom:1px solid #ccc; padding:10px;">
+        /* -------- Layout -------- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-    <h3>{{ app.job.title }}</h3>
+        h2 {
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
 
-    <p>
-      <strong>Company:</strong> {{ app.job.company }} <br>
-      <strong>Location:</strong> {{ app.job.location }}
-    </p>
+        hr {
+            border: none;
+            border-top: 1px solid #e5e7eb;
+            margin: 24px 0;
+        }
 
-    <p>
-      <strong>Applied on:</strong> {{ app.applied_at }}
-    </p>
+        /* -------- Top Link -------- */
+        .top-link {
+            display: inline-block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
 
-    <p>
-      <a href="{{ app.resume.url }}">View Resume</a>
-    </p>
+        .top-link:hover {
+            text-decoration: underline;
+        }
 
-  </div>
+        /* -------- Application Card -------- */
+        .application-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
 
-{% empty %}
-  <p>You have not applied to any jobs yet.</p>
-{% endfor %}
+        .application-card h3 {
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+
+        .application-meta {
+            font-size: 14px;
+            color: #4b5563;
+            margin-bottom: 8px;
+        }
+
+        .application-date {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .resume-link {
+            font-size: 14px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .resume-link:hover {
+            text-decoration: underline;
+        }
+
+        /* -------- Empty State -------- */
+        .empty-state {
+            text-align: center;
+            color: #6b7280;
+            font-size: 15px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <a href="/my-applications/" class="top-link">My Applications</a>
+
+    <hr>
+
+    {% for app in applications %}
+        <div class="application-card">
+
+            <h3>{{ app.job.title }}</h3>
+
+            <div class="application-meta">
+                <strong>Company:</strong> {{ app.job.company }} |
+                <strong>Location:</strong> {{ app.job.location }}
+            </div>
+
+            <div class="application-date">
+                <strong>Applied on:</strong> {{ app.applied_at }}
+            </div>
+
+            <a href="{{ app.resume.url }}" class="resume-link" target="_blank">
+                View Resume
+            </a>
+
+        </div>
+    {% empty %}
+        <div class="empty-state">
+            You have not applied to any jobs yet.
+        </div>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

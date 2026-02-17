@@ -1,6 +1,83 @@
-<h2>Dashboard</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
 
-<p>Welcome {{ request.user.username }}</p>
-<p>Role: {{ request.user.role }}</p>
+    <style>
+        /* -------- Reset -------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        }
 
-<a href="/accounts/logout/">Logout</a>
+        body {
+            min-height: 100vh;
+            background-color: #f4f6f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            color: #1f2937;
+        }
+
+        /* -------- Card -------- */
+        .dashboard-container {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .welcome {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .role {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        /* -------- Logout -------- */
+        .logout-link {
+            display: inline-block;
+            padding: 10px 18px;
+            background-color: #ef4444;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+
+        .logout-link:hover {
+            background-color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <h2>Dashboard</h2>
+
+        <p class="welcome">Welcome {{ request.user.username }}</p>
+        <p class="role">Role: {{ request.user.role }}</p>
+
+        <a href="/accounts/logout/" class="logout-link">Logout</a>
+    </div>
+
+</body>
+</html>

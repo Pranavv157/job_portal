@@ -1,9 +1,96 @@
-<h2>Applicants</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Applicants</title>
 
-{% for a in applications %}
-  <p>
-    {{ a.candidate.username }}
-    -
-    <a href="{{ a.resume.url }}">Resume</a>
-  </p>
-{% endfor %}
+    <style>
+        /* -------- Reset -------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f8;
+            padding: 40px 16px;
+            color: #1f2937;
+        }
+
+        /* -------- Layout -------- */
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        /* -------- Applicant Card -------- */
+        .applicant-card {
+            background-color: #ffffff;
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .applicant-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .resume-link {
+            font-size: 14px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .resume-link:hover {
+            text-decoration: underline;
+        }
+
+        /* -------- Empty State -------- */
+        .empty-state {
+            text-align: center;
+            color: #6b7280;
+            margin-top: 40px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Applicants</h2>
+
+    {% for a in applications %}
+        <div class="applicant-card">
+            <div class="applicant-name">
+                {{ a.candidate.username }}
+            </div>
+
+            <a href="{{ a.resume.url }}" class="resume-link" target="_blank">
+                View Resume
+            </a>
+        </div>
+    {% empty %}
+        <div class="empty-state">
+            No applicants yet
+        </div>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>
