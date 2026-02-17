@@ -58,9 +58,9 @@
             color: #374151;
         }
 
-        .apply-link {
+        .btn {
             display: inline-block;
-            margin-top: 16px;
+            margin-left: 8px;
             padding: 10px 16px;
             background-color: #2563eb;
             color: #ffffff;
@@ -70,10 +70,9 @@
             font-weight: 500;
             border: none;
             cursor: pointer;
-            transition: background-color 0.2s ease;
         }
 
-        .apply-link:hover {
+        .btn:hover {
             background-color: #1e40af;
         }
 
@@ -89,36 +88,33 @@
 
 <div class="container">
 
-    <!-- 🔹 HEADER / NAV -->
+    <!-- 🔹 HEADER -->
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
 
         <h2>All Jobs</h2>
 
         <div>
-            <a href="{% url 'create_job' %}" class="apply-link">
-                Create Job
-            </a>
-            
             {% if user.is_authenticated %}
-                {% if user.role == "candidate" %}
-                    <a href="{% url 'candidate_home' %}" class="apply-link">Dashboard</a>
-                {% elif user.role == "recruiter" %}
-                    <a href="{% url 'recruiter_home' %}" class="apply-link">Dashboard</a>
+                
+                {% if user.role == "recruiter" %}
+                    <a href="{% url 'create_job' %}" class="btn">Create Job</a>
+                    <a href="{% url 'recruiter_home' %}" class="btn">Dashboard</a>
+                {% elif user.role == "candidate" %}
+                    <a href="{% url 'candidate_home' %}" class="btn">Dashboard</a>
                 {% endif %}
 
-                <!-- ✅ Secure Logout -->
                 <form action="{% url 'logout' %}" method="post" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit" class="apply-link" style="margin-left:8px;">
-                        Logout
-                    </button>
+                    <button type="submit" class="btn">Logout</button>
                 </form>
 
             {% else %}
-                <a href="{% url 'login' %}" class="apply-link">Login</a>
-                <a href="{% url 'register' %}" class="apply-link" style="margin-left:8px;">
-                    Register
+                <!-- Anonymous user -->
+                <a href="{% url 'login' %}?next={% url 'create_job' %}" class="btn">
+                    Create Job
                 </a>
+                <a href="{% url 'login' %}" class="btn">Login</a>
+                <a href="{% url 'register' %}" class="btn">Register</a>
             {% endif %}
         </div>
 
@@ -140,23 +136,18 @@
                 {{ job.description }}
             </div>
 
-            <!-- 🔹 APPLY LOGIC -->
+            <!-- 🔹 APPLY BUTTON -->
             {% if user.is_authenticated and user.role == "candidate" %}
-                <a href="{% url 'apply_job' job.id %}" class="apply-link">
-                    Apply
-                </a>
+                <a href="{% url 'apply_job' job.id %}" class="btn">Apply</a>
             {% elif not user.is_authenticated %}
-                <a href="{% url 'login' %}?next={% url 'apply_job' job.id %}"
-                   class="apply-link">
+                <a href="{% url 'login' %}?next={% url 'apply_job' job.id %}" class="btn">
                     Apply
                 </a>
             {% endif %}
 
         </div>
     {% empty %}
-        <div class="empty-state">
-            No jobs yet
-        </div>
+        <div class="empty-state">No jobs yet</div>
     {% endfor %}
 
 </div>
