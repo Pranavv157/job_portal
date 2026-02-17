@@ -59,8 +59,5 @@ It demonstrates patterns commonly used in production Django applications.
 
 ---
 
-## 👤 Author
-
-Built by **<Pranav Shinde>**
 
 
