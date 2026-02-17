@@ -5,7 +5,6 @@
     <title>Login</title>
 
     <style>
-        /* Reset */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -21,7 +20,6 @@
             justify-content: center;
         }
 
-        /*Card */
         .login-container {
             width: 100%;
             max-width: 380px;
@@ -31,7 +29,6 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
-        /* -------- Heading -------- */
         .login-container h2 {
             text-align: center;
             margin-bottom: 24px;
@@ -39,7 +36,6 @@
             font-weight: 600;
         }
 
-        /* -------- Form -------- */
         form p {
             margin-bottom: 16px;
         }
@@ -57,23 +53,8 @@
             font-size: 14px;
             border-radius: 6px;
             border: 1px solid #d1d5db;
-            transition: border-color 0.2s ease;
         }
 
-        form input:focus {
-            outline: none;
-            border-color: #2563eb;
-        }
-
-        /* -------- Errors -------- */
-        .errorlist {
-            list-style: none;
-            margin-top: 6px;
-            color: #dc2626;
-            font-size: 13px;
-        }
-
-        /* -------- Button -------- */
         button {
             width: 100%;
             padding: 12px;
@@ -85,25 +66,44 @@
             font-size: 15px;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s ease;
         }
 
-        button:hover {
-            background-color: #1e40af;
+        .auth-footer {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        .auth-footer a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
-        <h2>Login</h2>
+<div class="login-container">
+    <h2>Login</h2>
 
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Login</button>
-        </form>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="auth-footer">
+        Don’t have an account?
+        <a href="{% url 'register' %}?next={{ request.GET.next }}">
+            Register
+        </a>
     </div>
+</div>
 
 </body>
 </html>

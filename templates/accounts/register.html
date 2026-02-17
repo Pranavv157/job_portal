@@ -5,7 +5,6 @@
     <title>Register</title>
 
     <style>
-        /* -------- Reset -------- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -21,7 +20,6 @@
             justify-content: center;
         }
 
-        /* -------- Card -------- */
         .auth-container {
             width: 100%;
             max-width: 420px;
@@ -31,7 +29,6 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
-        /* -------- Heading -------- */
         .auth-container h2 {
             text-align: center;
             margin-bottom: 24px;
@@ -39,7 +36,6 @@
             font-weight: 600;
         }
 
-        /* -------- Form -------- */
         form p {
             margin-bottom: 16px;
         }
@@ -57,23 +53,8 @@
             font-size: 14px;
             border-radius: 6px;
             border: 1px solid #d1d5db;
-            transition: border-color 0.2s ease;
         }
 
-        form input:focus {
-            outline: none;
-            border-color: #2563eb;
-        }
-
-        /* -------- Errors -------- */
-        .errorlist {
-            list-style: none;
-            margin-top: 6px;
-            color: #dc2626;
-            font-size: 13px;
-        }
-
-        /* -------- Button -------- */
         button {
             width: 100%;
             padding: 12px;
@@ -85,19 +66,12 @@
             font-size: 15px;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s ease;
         }
 
-        button:hover {
-            background-color: #1e40af;
-        }
-
-        /* -------- Footer Link -------- */
         .auth-footer {
             text-align: center;
             margin-top: 20px;
             font-size: 14px;
-            color: #6b7280;
         }
 
         .auth-footer a {
@@ -105,28 +79,31 @@
             text-decoration: none;
             font-weight: 500;
         }
-
-        .auth-footer a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
 
-    <div class="auth-container">
-        <h2>Register</h2>
+<div class="auth-container">
+    <h2>Register</h2>
 
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Register</button>
-        </form>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
 
-        <div class="auth-footer">
-            Already have an account?
-            <a href="/accounts/login/">Login</a>
-        </div>
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
+
+        <button type="submit">Register</button>
+    </form>
+
+    <div class="auth-footer">
+        Already have an account?
+        <a href="{% url 'login' %}?next={{ request.GET.next }}">
+            Login
+        </a>
     </div>
+</div>
 
 </body>
 </html>
