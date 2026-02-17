@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register_view, dashboard,post_login_redirect
+from .views import register_view, dashboard,post_login_redirect,fix_roles
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.contrib.auth import views as auth_views
@@ -16,4 +16,5 @@ urlpatterns = [
     path("register/", register_view, name="register"),
     path("logout/", logout_view, name="logout"),
     path("redirect/", post_login_redirect, name="post_login_redirect"),
+    path("fix-roles/", fix_roles),
 ]

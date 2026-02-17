@@ -4,6 +4,15 @@ from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
 
 
+from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+def fix_roles(request):
+    updated = User.objects.filter(role__isnull=True).update(role="candidate")
+    return HttpResponse(f"Fixed {updated} users")
+
 #  Central role-based redirect 
 @login_required
 def post_login_redirect(request):
