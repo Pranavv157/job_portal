@@ -21,18 +21,19 @@ def job_list(request):
 
 @login_required
 @recruiter_required
+@login_required
 def create_job(request):
-
-    form = JobForm(request.POST or None)
-
-    if form.is_valid():
-        job = form.save(commit=False)
-        job.recruiter = request.user
-        job.save()
-        return redirect("recruiter_home")
+    if request.method == "POST":
+        form = JobForm(request.POST)
+        if form.is_valid():
+            job = form.save(commit=False)
+            job.created_by = request.user   # AUTO ASSIGN
+            job.save()
+            return redirect("recruiter_home")
+    else:
+        form = JobForm()
 
     return render(request, "jobs/create_job.html", {"form": form})
-
 
 # Candidate applies to a job
 @login_required
