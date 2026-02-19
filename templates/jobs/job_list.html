@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- ✅ REQUIRED FOR MOBILE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>All Jobs</title>
 
     <style>
@@ -14,7 +18,7 @@
 
         body {
             background-color: #f4f6f8;
-            padding: 40px 16px;
+            padding: 24px 12px;
             color: #1f2937;
         }
 
@@ -34,21 +38,37 @@
             margin: 24px 0;
         }
 
+        /* 🔹 HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .header-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
         .job-card {
             background-color: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         }
 
         .job-card h3 {
-            margin-bottom: 8px;
-            font-size: 18px;
+            margin-bottom: 6px;
+            font-size: 17px;
         }
 
         .job-meta {
-            font-size: 14px;
+            font-size: 13px;
             color: #4b5563;
             margin-bottom: 6px;
         }
@@ -57,6 +77,7 @@
             font-size: 14px;
             color: #374151;
             margin-bottom: 12px;
+            line-height: 1.6;
         }
 
         .status {
@@ -65,7 +86,7 @@
             border-radius: 999px;
             font-size: 12px;
             font-weight: 500;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .open {
@@ -80,8 +101,7 @@
 
         .btn {
             display: inline-block;
-            margin-right: 8px;
-            padding: 10px 16px;
+            padding: 8px 14px;
             background-color: #2563eb;
             color: #ffffff;
             text-decoration: none;
@@ -107,6 +127,45 @@
             font-size: 15px;
             margin-top: 40px;
         }
+
+        /* 🔹 PAGINATION */
+        .pagination {
+            text-align: center;
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 📱 MOBILE TUNING */
+        @media (max-width: 480px) {
+            body {
+                padding: 16px 8px;
+            }
+
+            .job-card {
+                padding: 14px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .header-actions {
+                width: 100%;
+            }
+
+            .pagination .btn {
+                width: auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -114,10 +173,10 @@
 <div class="container">
 
     <!-- 🔹 HEADER -->
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+    <div class="header">
         <h2>All Jobs</h2>
 
-        <div>
+        <div class="header-actions">
             {% if user.is_authenticated %}
                 {% if user.role == "recruiter" %}
                     <a href="{% url 'create_job' %}" class="btn">Create Job</a>
@@ -126,7 +185,7 @@
                     <a href="{% url 'candidate_home' %}" class="btn">Dashboard</a>
                 {% endif %}
 
-                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn">Logout</button>
                 </form>
@@ -147,7 +206,7 @@
             <h3>{{ job.title }}</h3>
 
             <div class="job-meta">
-                {{ job.company }} | {{ job.location }}
+                {{ job.company }} • {{ job.location }}
             </div>
 
             {% if job.is_active %}
@@ -160,7 +219,6 @@
                 {{ job.description }}
             </div>
 
-            <!-- 🔹 APPLY LOGIC -->
             {% if user.is_authenticated and user.role == "candidate" %}
                 {% if job.is_active %}
                     <a href="{% url 'apply_job' job.id %}" class="btn">Apply</a>
@@ -174,20 +232,19 @@
                     <span class="btn btn-disabled">Closed</span>
                 {% endif %}
             {% endif %}
-
         </div>
     {% empty %}
         <div class="empty-state">No jobs yet</div>
     {% endfor %}
 
     <!-- 🔹 PAGINATION -->
-    <div style="margin-top:30px; text-align:center;">
+    <div class="pagination">
         {% if page_obj.has_previous %}
             <a class="btn" href="?page=1">First</a>
             <a class="btn" href="?page={{ page_obj.previous_page_number }}">Previous</a>
         {% endif %}
 
-        <span style="margin:0 10px;">
+        <span>
             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
         </span>
 

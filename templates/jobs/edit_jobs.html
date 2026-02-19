@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- ✅ REQUIRED FOR MOBILE RESPONSIVENESS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Edit Job</title>
 
     <style>
@@ -27,8 +31,8 @@
             width: 100%;
             max-width: 600px;
             background: #ffffff;
-            padding: 32px;
-            border-radius: 8px;
+            padding: 28px;
+            border-radius: 10px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
@@ -85,8 +89,8 @@
         /* -------- Buttons -------- */
         .actions {
             display: flex;
-            gap: 10px;
-            margin-top: 16px;
+            gap: 12px;
+            margin-top: 20px;
         }
 
         .actions button {
@@ -99,7 +103,6 @@
             font-size: 15px;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s ease;
         }
 
         .actions button:hover {
@@ -120,6 +123,21 @@
 
         .actions a:hover {
             background-color: #d1d5db;
+        }
+
+        /* 📱 MOBILE OPTIMIZATION */
+        @media (max-width: 480px) {
+            .job-container {
+                padding: 20px;
+            }
+
+            .job-container h2 {
+                font-size: 20px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>

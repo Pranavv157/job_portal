@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- ✅ REQUIRED FOR RESPONSIVENESS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Apply for {{ job.title }}</title>
 
     <style>
@@ -19,7 +23,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 16px;
+            padding: 20px 14px; /* ✅ mobile-friendly padding */
         }
 
         /* -------- Card -------- */
@@ -27,24 +31,26 @@
             width: 100%;
             max-width: 520px;
             background: #ffffff;
-            padding: 32px;
+            padding: 28px;
             border-radius: 8px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
         /* -------- Heading -------- */
         .apply-container h2 {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             color: #1f2937;
             font-weight: 600;
             text-align: center;
+            font-size: 22px;
         }
 
         .job-title {
             text-align: center;
             font-size: 14px;
             color: #6b7280;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
+            word-break: break-word;
         }
 
         /* -------- Form -------- */
@@ -93,7 +99,7 @@
         button {
             width: 100%;
             padding: 12px;
-            margin-top: 8px;
+            margin-top: 10px;
             background-color: #2563eb;
             color: #ffffff;
             border: none;
@@ -107,20 +113,39 @@
         button:hover {
             background-color: #1e40af;
         }
+
+        /* 🔹 MOBILE TWEAKS */
+        @media (max-width: 480px) {
+            .apply-container {
+                padding: 22px;
+            }
+
+            .apply-container h2 {
+                font-size: 20px;
+            }
+
+            .job-title {
+                font-size: 13px;
+            }
+
+            button {
+                font-size: 16px; /* ✅ better tap feel */
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="apply-container">
-        <h2>Apply for</h2>
-        <div class="job-title">{{ job.title }}</div>
+<div class="apply-container">
+    <h2>Apply for</h2>
+    <div class="job-title">{{ job.title }}</div>
 
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Apply</button>
-        </form>
-    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Apply</button>
+    </form>
+</div>
 
 </body>
 </html>

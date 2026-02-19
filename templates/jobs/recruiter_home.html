@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- ✅ REQUIRED FOR RESPONSIVENESS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Recruiter Dashboard</title>
 
     <style>
@@ -14,7 +18,7 @@
 
         body {
             background-color: #f4f6f8;
-            padding: 40px 16px;
+            padding: 24px 12px;
         }
 
         .container {
@@ -36,6 +40,7 @@
             font-size: 14px;
             border: none;
             cursor: pointer;
+            white-space: nowrap;
         }
 
         .btn:hover {
@@ -48,6 +53,7 @@
         /* 🔹 TOP ACTIONS */
         .top-actions {
             display: flex;
+            flex-wrap: wrap;              /* ✅ allow wrapping */
             align-items: center;
             gap: 10px;
             margin-bottom: 20px;
@@ -59,28 +65,33 @@
 
         .job-card {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 18px;
+            border-radius: 10px;
             margin-bottom: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.06);
         }
 
         .filter-box {
+            display: flex;
+            flex-wrap: wrap;              /* ✅ mobile friendly */
+            gap: 10px;
             margin: 20px 0;
         }
 
         .filter-box input,
         .filter-box select {
             padding: 8px;
-            margin-right: 8px;
+            min-width: 180px;
+            flex: 1;
         }
 
         .pagination {
             text-align: center;
             margin-top: 30px;
+            font-size: 14px;
         }
 
-        /* 🔹 JOB DESCRIPTION FORMATTING */
+        /* 🔹 JOB DESCRIPTION */
         .job-description {
             font-size: 14px;
             line-height: 1.8;
@@ -90,10 +101,34 @@
 
         .job-description strong {
             display: block;
-            margin-top: 16px;
+            margin-top: 14px;
             font-size: 15px;
             font-weight: 600;
             color: #111827;
+        }
+
+        /* 📱 MOBILE OPTIMIZATION */
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 20px;
+            }
+
+            .logout-form {
+                margin-left: 0;
+            }
+
+            .btn {
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+
+            .job-card {
+                padding: 14px;
+            }
+
+            .job-description {
+                font-size: 13px;
+            }
         }
     </style>
 </head>
@@ -126,8 +161,6 @@
                 </option>
             {% endfor %}
         </select>
-
-       
     </form>
 
     <hr>
@@ -168,7 +201,6 @@
                 </button>
             </form>
         </div>
-
     {% empty %}
         <p>No jobs found.</p>
     {% endfor %}

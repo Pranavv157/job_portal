@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- ✅ REQUIRED FOR MOBILE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Applicants</title>
 
     <style>
@@ -15,7 +19,7 @@
 
         body {
             background-color: #f4f6f8;
-            padding: 40px 16px;
+            padding: 24px 16px; /* ✅ better mobile padding */
             color: #1f2937;
         }
 
@@ -28,6 +32,8 @@
         h2 {
             margin-bottom: 24px;
             font-weight: 600;
+            font-size: 22px;
+            text-align: center;
         }
 
         /* -------- Applicant Card -------- */
@@ -39,13 +45,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
+            gap: 12px;
         }
 
         .applicant-name {
             font-size: 15px;
             font-weight: 500;
             color: #1f2937;
+            word-break: break-word;
         }
 
         .resume-link {
@@ -53,6 +61,7 @@
             color: #2563eb;
             text-decoration: none;
             font-weight: 500;
+            white-space: nowrap;
         }
 
         .resume-link:hover {
@@ -65,6 +74,23 @@
             color: #6b7280;
             margin-top: 40px;
             font-size: 15px;
+        }
+
+        /* 🔹 MOBILE FIXES */
+        @media (max-width: 480px) {
+            .applicant-card {
+                flex-direction: column;     /* ✅ stack */
+                align-items: flex-start;
+            }
+
+            .resume-link {
+                margin-top: 8px;
+                font-size: 15px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
         }
     </style>
 </head>

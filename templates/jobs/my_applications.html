@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <!-- ✅ REQUIRED FOR MOBILE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>My Applications</title>
 
     <style>
@@ -15,7 +19,7 @@
 
         body {
             background-color: #f4f6f8;
-            padding: 40px 16px;
+            padding: 24px 12px;
             color: #1f2937;
         }
 
@@ -26,20 +30,20 @@
         }
 
         h2 {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             font-weight: 600;
         }
 
         hr {
             border: none;
             border-top: 1px solid #e5e7eb;
-            margin: 24px 0;
+            margin: 20px 0;
         }
 
         /* -------- Top Link -------- */
         .top-link {
             display: inline-block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-size: 14px;
             color: #2563eb;
             text-decoration: none;
@@ -53,27 +57,28 @@
         /* -------- Application Card -------- */
         .application-card {
             background-color: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         }
 
         .application-card h3 {
-            margin-bottom: 8px;
-            font-size: 18px;
+            margin-bottom: 6px;
+            font-size: 17px;
         }
 
         .application-meta {
-            font-size: 14px;
+            font-size: 13px;
             color: #4b5563;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            line-height: 1.5;
         }
 
         .application-date {
             font-size: 13px;
             color: #6b7280;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .resume-link {
@@ -94,6 +99,26 @@
             font-size: 15px;
             margin-top: 40px;
         }
+
+        /* 📱 MOBILE OPTIMIZATION */
+        @media (max-width: 480px) {
+            body {
+                padding: 16px 8px;
+            }
+
+            .application-card {
+                padding: 14px;
+            }
+
+            .application-card h3 {
+                font-size: 16px;
+            }
+
+            .application-meta,
+            .application-date {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -110,7 +135,7 @@
             <h3>{{ app.job.title }}</h3>
 
             <div class="application-meta">
-                <strong>Company:</strong> {{ app.job.company }} |
+                <strong>Company:</strong> {{ app.job.company }}<br>
                 <strong>Location:</strong> {{ app.job.location }}
             </div>
 
