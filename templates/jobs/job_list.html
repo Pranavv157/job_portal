@@ -123,33 +123,26 @@
     <hr>
 
     <!-- 🔹 JOB LIST -->
-    {% for job in jobs %}
-        <div class="job-card">
+    {% for job in page_obj %}
 
-            <h3>{{ job.title }}</h3>
+    <div style="margin-top:30px; text-align:center;">
 
-            <div class="job-meta">
-                {{ job.company }} | {{ job.location }}
-            </div>
-
-            <div class="job-description">
-                {{ job.description }}
-            </div>
-
-            <!-- 🔹 APPLY BUTTON -->
-            {% if user.is_authenticated and user.role == "candidate" %}
-                <a href="{% url 'apply_job' job.id %}" class="btn">Apply</a>
-            {% elif not user.is_authenticated %}
-                <a href="{% url 'login' %}?next={% url 'apply_job' job.id %}" class="btn">
-                    Apply
-                </a>
-            {% endif %}
-
-        </div>
-    {% empty %}
-        <div class="empty-state">No jobs yet</div>
-    {% endfor %}
-
+        {% if page_obj.has_previous %}
+            <a class="btn" href="?page=1">First</a>
+            <a class="btn" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+    
+        <span style="margin:0 10px;">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+    
+        {% if page_obj.has_next %}
+            <a class="btn" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    
+    </div>
+    
 </div>
 
 </body>

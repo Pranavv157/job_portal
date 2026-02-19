@@ -12,7 +12,8 @@ from .utils import paginate_queryset
 # Public job list (landing page)
 def job_list(request):
     jobs = Job.objects.filter(is_active=True)
-    return render(request, "jobs/job_list.html", {"jobs": jobs})
+    page_obj = paginate_queryset(request, jobs)
+    return render(request, "jobs/job_list.html", {"page_obj": page_obj})
 
 
 # Recruiter creates a job
