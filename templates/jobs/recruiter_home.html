@@ -42,15 +42,10 @@
             background-color: #1e40af;
         }
 
-        .btn.danger {
-            background-color: #ef4444;
-        }
+        .btn.danger { background-color: #ef4444; }
+        .btn.gray { background-color: #6b7280; }
 
-        .btn.gray {
-            background-color: #6b7280;
-        }
-
-        /* 🔹 TOP ACTIONS FIX */
+        /* 🔹 TOP ACTIONS */
         .top-actions {
             display: flex;
             align-items: center;
@@ -84,13 +79,22 @@
             text-align: center;
             margin-top: 30px;
         }
-      .job-description {
-            white-space: pre-wrap;   /*  preserves line breaks */
-            line-height: 1.6;
-            font-size: 14px;
-            color: #374151;
-  }
 
+        /* 🔹 JOB DESCRIPTION FORMATTING */
+        .job-description {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #374151;
+            margin-top: 10px;
+        }
+
+        .job-description strong {
+            display: block;
+            margin-top: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #111827;
+        }
     </style>
 </head>
 <body>
@@ -99,31 +103,25 @@
 
     <h2>Recruiter Dashboard</h2>
 
-    <!-- 🔹 TOP ACTIONS (ALL ON SAME LINE) -->
+    <!-- 🔹 TOP ACTIONS -->
     <div class="top-actions">
         <a href="{% url 'create_job' %}" class="btn">Create Job</a>
         <a href="{% url 'applicants' %}" class="btn gray">View Applicants</a>
 
-        <a><form method="post" action="{% url 'logout' %}" class="logout-form">
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
             {% csrf_token %}
             <button type="submit" class="btn danger">Logout</button>
-        </form></a>
+        </form>
     </div>
 
     <!-- 🔹 SEARCH & FILTER -->
     <form method="get" class="filter-box">
-        <input
-            type="text"
-            name="search"
-            placeholder="Search jobs"
-            value="{{ search_query }}"
-        >
+        <input type="text" name="search" placeholder="Search jobs" value="{{ search_query }}">
 
         <select name="location">
             <option value="">All locations</option>
             {% for loc in locations %}
-                <option value="{{ loc }}"
-                    {% if selected_location == loc %}selected{% endif %}>
+                <option value="{{ loc }}" {% if selected_location == loc %}selected{% endif %}>
                     {{ loc }}
                 </option>
             {% endfor %}
@@ -140,7 +138,10 @@
             <h3>{{ job.title }}</h3>
 
             <p><strong>{{ job.company }}</strong> | {{ job.location }}</p>
-            <p>{{ job.description }}</p>
+
+            <div class="job-description">
+                {{ job.description|linebreaksbr }}
+            </div>
 
             <p>
                 Status:
