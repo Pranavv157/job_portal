@@ -50,17 +50,37 @@
         .job-meta {
             font-size: 14px;
             color: #4b5563;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
         }
 
         .job-description {
             font-size: 14px;
             color: #374151;
+            margin-bottom: 12px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .open {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .closed {
+            background-color: #fee2e2;
+            color: #991b1b;
         }
 
         .btn {
             display: inline-block;
-            margin-left: 8px;
+            margin-right: 8px;
             padding: 10px 16px;
             background-color: #2563eb;
             color: #ffffff;
@@ -74,6 +94,11 @@
 
         .btn:hover {
             background-color: #1e40af;
+        }
+
+        .btn-disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
         }
 
         .empty-state {
@@ -90,12 +115,10 @@
 
     <!-- 🔹 HEADER -->
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-
         <h2>All Jobs</h2>
 
         <div>
             {% if user.is_authenticated %}
-                
                 {% if user.role == "recruiter" %}
                     <a href="{% url 'create_job' %}" class="btn">Create Job</a>
                     <a href="{% url 'recruiter_home' %}" class="btn">Dashboard</a>
@@ -107,42 +130,73 @@
                     {% csrf_token %}
                     <button type="submit" class="btn">Logout</button>
                 </form>
-
             {% else %}
-                <!-- Anonymous user -->
-                <a href="{% url 'login' %}?next={% url 'create_job' %}" class="btn">
-                    Create Job
-                </a>
+                <a href="{% url 'login' %}?next={% url 'create_job' %}" class="btn">Create Job</a>
                 <a href="{% url 'login' %}" class="btn">Login</a>
                 <a href="{% url 'register' %}" class="btn">Register</a>
             {% endif %}
         </div>
-
     </div>
 
     <hr>
 
     <!-- 🔹 JOB LIST -->
     {% for job in page_obj %}
+        <div class="job-card">
 
+            <h3>{{ job.title }}</h3>
+
+            <div class="job-meta">
+                {{ job.company }} | {{ job.location }}
+            </div>
+
+            {% if job.is_active %}
+                <span class="status open">Open</span>
+            {% else %}
+                <span class="status closed">Closed</span>
+            {% endif %}
+
+            <div class="job-description">
+                {{ job.description }}
+            </div>
+
+            <!-- 🔹 APPLY LOGIC -->
+            {% if user.is_authenticated and user.role == "candidate" %}
+                {% if job.is_active %}
+                    <a href="{% url 'apply_job' job.id %}" class="btn">Apply</a>
+                {% else %}
+                    <span class="btn btn-disabled">Closed</span>
+                {% endif %}
+            {% elif not user.is_authenticated %}
+                {% if job.is_active %}
+                    <a href="{% url 'login' %}?next={% url 'apply_job' job.id %}" class="btn">Apply</a>
+                {% else %}
+                    <span class="btn btn-disabled">Closed</span>
+                {% endif %}
+            {% endif %}
+
+        </div>
+    {% empty %}
+        <div class="empty-state">No jobs yet</div>
+    {% endfor %}
+
+    <!-- 🔹 PAGINATION -->
     <div style="margin-top:30px; text-align:center;">
-
         {% if page_obj.has_previous %}
             <a class="btn" href="?page=1">First</a>
             <a class="btn" href="?page={{ page_obj.previous_page_number }}">Previous</a>
         {% endif %}
-    
+
         <span style="margin:0 10px;">
             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
         </span>
-    
+
         {% if page_obj.has_next %}
             <a class="btn" href="?page={{ page_obj.next_page_number }}">Next</a>
             <a class="btn" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
         {% endif %}
-    
     </div>
-    
+
 </div>
 
 </body>

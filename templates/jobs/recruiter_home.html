@@ -5,7 +5,6 @@
     <title>Recruiter Dashboard</title>
 
     <style>
-        /* -------- Reset -------- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -16,249 +15,166 @@
         body {
             background-color: #f4f6f8;
             padding: 40px 16px;
-            color: #1f2937;
         }
 
-        /* -------- Layout -------- */
-        .dashboard-container {
+        .container {
             max-width: 900px;
-            margin: 0 auto;
+            margin: auto;
         }
 
         h2 {
             margin-bottom: 16px;
-            font-weight: 600;
         }
 
-        hr {
-            border: none;
-            border-top: 1px solid #e5e7eb;
-            margin: 24px 0;
-        }
-
-        /* -------- Top Actions -------- */
-        .top-actions {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-
-        .top-actions a {
-            text-decoration: none;
+        /* 🔹 BUTTONS */
+        .btn {
             padding: 8px 14px;
             background-color: #2563eb;
-            color: #ffffff;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: background-color 0.2s ease;
-        }
-
-        .top-actions a:hover {
-            background-color: #1e40af;
-        }
-
-        /* -------- Filter Form -------- */
-        .filter-form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .form-group {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .form-group input,
-        .form-group select {
-            padding: 10px 12px;
-            font-size: 14px;
-            border-radius: 6px;
-            border: 1px solid #d1d5db;
-            min-width: 260px;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #2563eb;
-        }
-
-        .form-group button {
-            padding: 10px 16px;
-            font-size: 14px;
-            border-radius: 6px;
-            border: none;
-            background-color: #2563eb;
-            color: #ffffff;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.2s ease;
-        }
-
-        .form-group button:hover {
-            background-color: #1e40af;
-        }
-
-        /* -------- Job Card -------- */
-        .job-card {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-        }
-
-        .job-card h3 {
-            margin-bottom: 8px;
-            font-size: 18px;
-        }
-
-        .job-meta {
-            font-size: 14px;
-            color: #4b5563;
-            margin-bottom: 10px;
-        }
-
-        .job-description {
-            font-size: 14px;
-            color: #374151;
-            margin-bottom: 10px;
-        }
-
-        .job-date {
-            font-size: 12px;
-            color: #6b7280;
-        }
-
-        /* -------- Empty State -------- */
-        .empty-state {
-            text-align: center;
-            color: #6b7280;
-            font-size: 15px;
-            margin-top: 40px;
-        }
-
-        /* -------- Pagination -------- */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            margin-top: 32px;
-            font-size: 14px;
-        }
-
-        .pagination a {
+            color: white;
             text-decoration: none;
-            color: #2563eb;
-            font-weight: 500;
+            border-radius: 6px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
         }
 
-        .pagination span {
-            color: #374151;
+        .btn:hover {
+            background-color: #1e40af;
+        }
+
+        .btn.danger {
+            background-color: #ef4444;
+        }
+
+        .btn.gray {
+            background-color: #6b7280;
+        }
+
+        /* 🔹 TOP ACTIONS FIX */
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .logout-form {
+            margin-left: auto;
+        }
+
+        .job-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .filter-box {
+            margin: 20px 0;
+        }
+
+        .filter-box input,
+        .filter-box select {
+            padding: 8px;
+            margin-right: 8px;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
 
-<div class="dashboard-container">
+<div class="container">
 
     <h2>Recruiter Dashboard</h2>
 
-    <!-- Top Actions -->
+    <!-- 🔹 TOP ACTIONS (ALL ON SAME LINE) -->
     <div class="top-actions">
-        <a href="/create/">Post Job</a>
-        <a href="/applicants/">View Applicants</a>
-        <form method="post" action="{% url 'logout' %}">
-          {% csrf_token %}
-          <button type="submit" style="
-              padding: 8px 14px;
-              background-color: #ef4444;
-              color: #ffffff;
-              border: none;
-              border-radius: 6px;
-              font-size: 14px;
-              font-weight: 500;
-              cursor: pointer;
-          ">
-              Logout
-          </button>
-      </form>
-      
+        <a href="{% url 'create_job' %}" class="btn">Create Job</a>
+        <a href="{% url 'applicants' %}" class="btn gray">View Applicants</a>
+
+        <a><form method="post" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="btn danger">Logout</button>
+        </form></a>
     </div>
 
-    <hr>
+    <!-- 🔹 SEARCH & FILTER -->
+    <form method="get" class="filter-box">
+        <input
+            type="text"
+            name="search"
+            placeholder="Search jobs"
+            value="{{ search_query }}"
+        >
 
-    <!-- Search & Filter -->
-    <form method="get" class="filter-form">
+        <select name="location">
+            <option value="">All locations</option>
+            {% for loc in locations %}
+                <option value="{{ loc }}"
+                    {% if selected_location == loc %}selected{% endif %}>
+                    {{ loc }}
+                </option>
+            {% endfor %}
+        </select>
 
-        <div class="form-group">
-            <input
-                type="text"
-                name="search"
-                placeholder="Search jobs..."
-                value="{{ search_query }}"
-            >
-            <button type="submit">Search</button>
-        </div>
-
-        <div class="form-group">
-            <select name="locations">
-                <option value="">All Locations</option>
-                {% for loc in locations %}
-                    <option value="{{ loc }}"
-                        {% if selected_location == loc %}selected{% endif %}>
-                        {{ loc }}
-                    </option>
-                {% endfor %}
-            </select>
-            <button type="submit">Filter</button>
-        </div>
-
+        <button class="btn" type="submit">Apply</button>
     </form>
 
     <hr>
 
-    <!-- Job Listings -->
+    <!-- 🔹 JOB LIST -->
     {% for job in page_obj %}
         <div class="job-card">
             <h3>{{ job.title }}</h3>
 
-            <div class="job-meta">
-                <strong>Company:</strong> {{ job.company }} |
-                <strong>Location:</strong> {{ job.location }}
-            </div>
+            <p><strong>{{ job.company }}</strong> | {{ job.location }}</p>
+            <p>{{ job.description }}</p>
 
-            <div class="job-description">
-                {{ job.description }}
-            </div>
+            <p>
+                Status:
+                {% if job.is_active %}
+                    <strong style="color:green;">Active</strong>
+                {% else %}
+                    <strong style="color:red;">Closed</strong>
+                {% endif %}
+            </p>
 
-            <div class="job-date">
-                Posted on {{ job.created_at }}
-            </div>
+            <br>
+
+            <a href="{% url 'edit_job' job.id %}" class="btn">Edit</a>
+
+            <form method="post" action="{% url 'delete_job' job.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn danger">Delete</button>
+            </form>
+
+            <form method="post" action="{% url 'toggle_job' job.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn gray">
+                    {% if job.is_active %}Close{% else %}Open{% endif %}
+                </button>
+            </form>
         </div>
+
     {% empty %}
-        <div class="empty-state">
-            You haven’t posted any jobs yet.
-        </div>
+        <p>No jobs found.</p>
     {% endfor %}
 
-    <!-- Pagination -->
+    <!-- 🔹 PAGINATION -->
     <div class="pagination">
         {% if page_obj.has_previous %}
-            <a href="?page=1&search={{ search_query }}">First</a>
-            <a href="?page={{ page_obj.previous_page_number }}&search={{ search_query }}">Previous</a>
+            <a class="btn" href="?page={{ page_obj.previous_page_number }}">Prev</a>
         {% endif %}
 
-        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}&search={{ search_query }}">Next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search_query }}">Last</a>
+            <a class="btn" href="?page={{ page_obj.next_page_number }}">Next</a>
         {% endif %}
     </div>
 
