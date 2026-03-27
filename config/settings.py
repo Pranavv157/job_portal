@@ -157,7 +157,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.railway.app"
+    "https://*.railway.app",
+    "https://your-app-name.up.railway.app"
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
